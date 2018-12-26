@@ -20,6 +20,9 @@
   "keywords": [
     "github",
     "webhooks",
+    "secure",
+    "sha1",
+    "koa2",
     "koa"
   ],
   "repository": {
