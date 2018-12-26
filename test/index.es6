@@ -6,7 +6,7 @@ import superagent from 'superagent';
 import superagentPromisePlugin from 'superagent-promise-plugin';
 import koa from 'koa';
 import koaBody from 'koa-body';
-import GithubWebhookHandler from './../src/koa-github-webhook-handler';
+import GithubWebhookHandler from './../lib/koa-github-webhook-handler';
 import { createHmac } from 'crypto';
 
 const signBlob = (key, blob) => {
