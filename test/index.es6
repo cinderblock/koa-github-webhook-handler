@@ -7,7 +7,16 @@ import superagentPromisePlugin from 'superagent-promise-plugin';
 import koa from 'koa';
 import koaBody from 'koa-body';
 import GithubWebhookHandler from './../src/koa-github-webhook-handler';
-import { signBlob } from './../src/tools.es6';
+import { createHmac } from 'crypto';
+
+const signBlob = (key, blob) => {
+  return (
+    'sha1=' +
+    createHmac('sha1', key)
+      .update(blob)
+      .digest('hex')
+  );
+};
 
 const localhost = 'http://localhost:3000';
 const request =  superagentPromisePlugin.patch(superagent);
