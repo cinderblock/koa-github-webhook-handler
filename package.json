@@ -8,7 +8,7 @@
     "prepublishOnly": "yarn test",
     "postpublish": "git push origin master --tags",
     "pretest": "yarn build",
-    "test": "tape -r babel-register test/**/*.es6"
+    "test": "tape -r @babel/register test/**/*.es6"
   },
   "files": [
     "src/koa-github-webhook-secure.ts",
@@ -26,6 +26,9 @@
     "url": "git+https://github.com/cinderblock/koa-github-webhook-secure.git"
   },
   "devDependencies": {
+    "@babel/core": "^7.2.2",
+    "@babel/preset-env": "^7.2.3",
+    "@babel/register": "^7.0.0",
     "@types/co-body": "^0.0.3",
     "@types/koa": "^2.0.47",
     "@types/node": "^10.12.18",
