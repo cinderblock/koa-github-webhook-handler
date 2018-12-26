@@ -4,6 +4,7 @@
   "description": "Koa.js middleware for processing GitHub Webhooks",
   "scripts": {
     "build": "tsc",
+    "preversion": "yarn test",
     "postversion": "npm publish",
     "prepublishOnly": "yarn build",
     "postpublish": "git push origin master --tags",
