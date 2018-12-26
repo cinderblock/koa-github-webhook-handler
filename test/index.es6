@@ -5,7 +5,6 @@ import cotape from 'co-tape';
 import superagent from 'superagent';
 import superagentPromisePlugin from 'superagent-promise-plugin';
 import koa from 'koa';
-import koaBody from 'koa-body';
 import GithubWebhookHandler from './../lib/koa-github-webhook-handler';
 import { createHmac } from 'crypto';
 
@@ -28,7 +27,6 @@ const setup = (opts = {}) => {
 
   const handler = new GithubWebhookHandler(opts);
 
-  app.use(koaBody({ formidable: { uploadDir: __dirname } }));
   app.use(handler.middleware());
 
   const server = createServer(app.callback()).listen(3000);
