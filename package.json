@@ -7,6 +7,12 @@
     "prepublish": "npm run build",
     "test": "tape -r babel-register test/**/*.es6"
   },
+  "files": [
+    "src/koa-github-webhook-handler.ts",
+    "src/tools.ts",
+    "lib/koa-github-webhook-handler.js",
+    "lib/koa-github-webhook-handler.d.ts"
+  ],
   "main": "lib/koa-github-webhook-handler.js",
   "keywords": [
     "github",
