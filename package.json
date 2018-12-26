@@ -1,9 +1,9 @@
 {
-  "name": "koa-github-webhook-handler",
+  "name": "koa-github-webhook-secure",
   "version": "0.1.0",
   "description": "Koa.js middleware for processing GitHub Webhooks",
   "scripts": {
-    "build": "babel src/ -d lib/",
+    "build": "tsc",
     "prepublish": "npm run build",
     "test": "tape -r babel-register test/**/*.es6"
   },
@@ -15,26 +15,29 @@
   ],
   "repository": {
     "type": "git",
-    "url": "git+https://github.com/TinOo512/koa-github-webhook-handler.git"
+    "url": "git+https://github.com/cinderblock/koa-github-webhook-handler.git"
   },
   "devDependencies": {
-    "babel-cli": "^6.8.0",
-    "babel-preset-es2015-node4": "^2.1.0",
-    "babel-register": "^6.8.0",
+    "@types/node": "^10.12.18",
     "co-tape": "^1.0.0",
+    "eslint": "^5.11.0",
     "koa": "^1.2.0",
     "koa-body": "^1.4.0",
     "superagent": "^1.8.3",
     "superagent-promise-plugin": "^3.2.0",
-    "tape": "^4.5.1"
+    "tape": "^4.5.1",
+    "typescript": "^3.2.2"
   },
   "engines": {
     "node": ">=4.0"
   },
   "bugs": {
-    "url": "https://github.com/TinOo512/koa-github-webhook-handler/issues"
+    "url": "https://github.com/cinderblock/koa-github-webhook-handler/issues"
   },
-  "homepage": "https://github.com/TinOo512/koa-github-webhook-handler#readme",
+  "homepage": "https://github.com/cinderblock/koa-github-webhook-handler#readme",
   "author": "TinOo512 <etienne.dedieuleveult@gmail.com>",
+  "contributors": [
+    "Cameron Tacklind <cameron@tacklind.com>"
+  ],
   "license": "MIT"
 }

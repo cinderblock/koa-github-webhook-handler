@@ -4,8 +4,9 @@ import { EventEmitter } from 'events';
 import { signBlob } from './tools';
 
 export default class GithubWebhookHandler extends EventEmitter {
+  options: { path: string; secret: string };
 
-  constructor(options) {
+  constructor(options: { path: string; secret: string }) {
     super();
 
     if (typeof options !== 'object') throw new TypeError(`must provide an options object`);
@@ -18,12 +19,12 @@ export default class GithubWebhookHandler extends EventEmitter {
   middleware() {
     const self = this;
 
-    return function *middleware (next) {
+    return function* middleware(next) {
       if (this.request.path !== self.options.path) return yield next;
 
-      const sig   = this.request.get('x-hub-signature');
+      const sig = this.request.get('x-hub-signature');
       const event = this.request.get('x-github-event');
-      const id    = this.request.get('x-github-delivery');
+      const id = this.request.get('x-github-delivery');
 
       this.assert(sig, 400, 'No X-Hub-Signature found on request');
       this.assert(event, 400, 'No X-Github-Event found on request');
@@ -32,8 +33,7 @@ export default class GithubWebhookHandler extends EventEmitter {
       const isBlobMatchingSig = sig === signBlob(self.options.secret, JSON.stringify(this.request.body));
       this.assert(isBlobMatchingSig, 400, 'X-Hub-Signature does not match blob signature');
 
-
-      this.response.body = {ok: true};
+      this.response.body = { ok: true };
 
       const emitData = {
         event,
@@ -41,12 +41,11 @@ export default class GithubWebhookHandler extends EventEmitter {
         payload: this.request.body,
         protocol: this.request.protocol,
         host: this.request.get('host'),
-        url: this.request.url
+        url: this.request.url,
       };
 
       self.emit(event, emitData);
       self.emit('*', emitData);
     };
   }
-
 }
