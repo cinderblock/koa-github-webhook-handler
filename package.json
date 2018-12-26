@@ -4,7 +4,10 @@
   "description": "Koa.js middleware for processing GitHub Webhooks",
   "scripts": {
     "build": "tsc",
-    "prepublish": "npm run build",
+    "postversion": "npm publish",
+    "prepublish": "yarn test",
+    "postpublish": "git push origin master --tags",
+    "pretest": "yarn build",
     "test": "tape -r babel-register test/**/*.es6"
   },
   "files": [
@@ -34,7 +37,8 @@
     "superagent": "^1.8.3",
     "superagent-promise-plugin": "^3.2.0",
     "tape": "^4.5.1",
-    "typescript": "^3.2.2"
+    "typescript": "^3.2.2",
+    "yarn": "^1.12.3"
   },
   "engines": {
     "node": ">=4.0"
