@@ -11,12 +11,11 @@
     "test": "tape -r babel-register test/**/*.es6"
   },
   "files": [
-    "src/koa-github-webhook-handler.ts",
-    "src/tools.ts",
-    "lib/koa-github-webhook-handler.js",
-    "lib/koa-github-webhook-handler.d.ts"
+    "src/koa-github-webhook-secure.ts",
+    "lib/koa-github-webhook-secure.js",
+    "lib/koa-github-webhook-secure.d.ts"
   ],
-  "main": "lib/koa-github-webhook-handler.js",
+  "main": "lib/koa-github-webhook-secure.js",
   "keywords": [
     "github",
     "webhooks",
