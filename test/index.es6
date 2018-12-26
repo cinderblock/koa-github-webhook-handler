@@ -5,7 +5,7 @@ import cotape from 'co-tape';
 import superagent from 'superagent';
 import superagentPromisePlugin from 'superagent-promise-plugin';
 import koa from 'koa';
-import GithubWebhookHandler from './../lib/koa-github-webhook-handler';
+import GithubWebhook from '../lib/koa-github-webhook-secure.js';
 import { createHmac } from 'crypto';
 
 const signBlob = (key, blob) => {
@@ -25,7 +25,7 @@ const setup = (opts = {}) => {
   opts.secret = opts.secret || 'myhashsecret';
   const app = koa();
 
-  const handler = new GithubWebhookHandler(opts);
+  const handler = new GithubWebhook(opts);
 
   app.use(handler.middleware());
 
@@ -39,7 +39,7 @@ const teardown = server => {
 };
 
 test('constructor without full options throws', ({ throws, end }) => {
-  const actual = (...args) => new GithubWebhookHandler(...args);
+  const actual = (...args) => new GithubWebhook(...args);
   throws(actual, /must provide an options object/, 'throws if no options');
   throws(actual.bind(null, {}), /must provide a 'path' option/, 'throws if no path option');
   throws(actual.bind(null, { path: '/' }), /must provide a 'secret' option/, 'throws if no secret option');
