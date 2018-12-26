@@ -5,7 +5,7 @@
   "scripts": {
     "build": "tsc",
     "postversion": "npm publish",
-    "prepublishOnly": "yarn test",
+    "prepublishOnly": "yarn build",
     "postpublish": "git push origin master --tags",
     "pretest": "yarn build",
     "test": "tape -r @babel/register test/**/*.es6"
