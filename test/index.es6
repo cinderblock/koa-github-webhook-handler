@@ -48,11 +48,11 @@ test('constructor without full options throws', ({ throws, end }) => {
 
 test(
   'middleware ignores invalid url',
-  cotape(function*({ equal, fail, end }) {
+  cotape(async function({ equal, fail, end }) {
     const { server } = setup();
 
     try {
-      yield request.get(localhost);
+      await request.get(localhost);
       fail('request was handled');
     } catch (err) {
       const { status: actual } = err;
@@ -66,11 +66,11 @@ test(
 
 test(
   'middleware accepts valid urls',
-  cotape(function*({ pass, notEqual, end }) {
+  cotape(async function({ pass, notEqual, end }) {
     const { server } = setup();
 
     try {
-      yield request.get(`${localhost}/webhook`);
+      await request.get(`${localhost}/webhook`);
       pass('request was handled');
     } catch (err) {
       const { status: actual } = err;
@@ -78,7 +78,7 @@ test(
     }
 
     try {
-      yield request.get(`${localhost}/webhook?test=param`);
+      await request.get(`${localhost}/webhook?test=param`);
       pass('request with param was handled');
     } catch (err) {
       const { status: actual } = err;
@@ -92,12 +92,12 @@ test(
 
 test(
   'middleware responds with a 400 for missing headers',
-  cotape(function*({ equal, end }) {
+  cotape(async function({ equal, end }) {
     const { server } = setup();
     const payload = { some: 'github', object: 'with', properties: true };
 
     try {
-      yield request
+      await request
         .post(`${localhost}/webhook`)
         .send(payload)
         .set('x-github-event', 'push')
@@ -108,7 +108,7 @@ test(
     }
 
     try {
-      yield request
+      await request
         .post(`${localhost}/webhook`)
         .send(payload)
         .set('x-hub-signature', signBlob('myhashsecret', JSON.stringify(payload)))
@@ -119,7 +119,7 @@ test(
     }
 
     try {
-      yield request
+      await request
         .post(`${localhost}/webhook`)
         .send(payload)
         .set('x-hub-signature', signBlob('myhashsecret', JSON.stringify(payload)))
@@ -136,7 +136,7 @@ test(
 
 test(
   'middleware accepts a signed blob',
-  cotape(function*({ plan, equal, deepEqual, error, fail }) {
+  cotape(async function({ plan, equal, deepEqual, error, fail }) {
     const { server, handler } = setup();
     const { protocol, host } = parse(localhost);
     const url = '/webhook';
@@ -149,7 +149,7 @@ test(
     });
 
     try {
-      const res = yield request
+      const res = await request
         .post(localhost + url)
         .send(payload)
         .set('x-hub-signature', signBlob('myhashsecret', JSON.stringify(payload)))
@@ -170,7 +170,7 @@ test(
 
 test(
   'middleware accepts a signed blob with alt event',
-  cotape(function*({ plan, equal, deepEqual, error, fail }) {
+  cotape(async function({ plan, equal, deepEqual, error, fail }) {
     const { server, handler } = setup();
     const { protocol, host } = parse(localhost);
     const url = '/webhook';
@@ -184,7 +184,7 @@ test(
     });
 
     try {
-      const res = yield request
+      const res = await request
         .post(localhost + url)
         .send(payload)
         .set('x-hub-signature', signBlob('myhashsecret', JSON.stringify(payload)))
@@ -205,7 +205,7 @@ test(
 
 test(
   'middleware rejects a badly signed blob',
-  cotape(function*({ equal, fail, end }) {
+  cotape(async function({ equal, fail, end }) {
     const { server, handler } = setup();
     const payload = { some: 'github', object: 'with', properties: true };
     const sig = signBlob('myhashsecret', JSON.stringify(payload));
@@ -213,7 +213,7 @@ test(
     handler.on('push', () => fail('should not get here!'));
 
     try {
-      yield request
+      await request
         .post(`${localhost}/webhook`)
         .send(payload)
         .set('x-hub-signature', `0${sig.slice(1)}`) // break signage by a tiny bit
