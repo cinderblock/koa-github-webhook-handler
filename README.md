@@ -10,10 +10,6 @@ Koa v2 middleware for processing GitHub Webhooks Securely
 This library is a **middleware** for Koa v2 web servers that handles all the logic of receiving and verifying webhook requests from GitHub.
 It's based on the awesome work by @TinOo512, available [here](https://github.com/TinOo512/koa-github-webhook-handler).
 
-## Dependency
-
-Any **JSON body parser middleware** for Koa.js (see complete list [here](https://github.com/koajs/koa/wiki#body-parsing)).
-
 ## Example
 
 ```js
