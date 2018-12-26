@@ -3,9 +3,7 @@
     "alwaysStrict": true,
     "esModuleInterop": true,
     "lib": ["es2018"],
-    "module": "system",
     "noImplicitAny": true,
-    "outFile": "lib/koa-github-webhook-secure.js",
     "outDir": "lib",
     "strict": true
   }
