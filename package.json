@@ -16,6 +16,7 @@
     "lib/koa-github-webhook-secure.d.ts"
   ],
   "main": "lib/koa-github-webhook-secure.js",
+  "types": "lib/koa-github-webhook-secure.d.ts",
   "keywords": [
     "github",
     "webhooks",

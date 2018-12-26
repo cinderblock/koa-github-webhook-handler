@@ -4,6 +4,7 @@
     "esModuleInterop": true,
     "lib": ["es2018"],
     "noImplicitAny": true,
+    "declaration": true,
     "outDir": "lib",
     "strict": true
   }
