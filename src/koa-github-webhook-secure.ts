@@ -2,6 +2,8 @@
 
 import { EventEmitter } from 'events';
 import { signBlob } from './tools';
+import parse from 'co-body';
+import Koa from 'koa';
 
 export default class GithubWebhookHandler extends EventEmitter {
   options: { path: string; secret: string };
@@ -19,29 +21,31 @@ export default class GithubWebhookHandler extends EventEmitter {
   middleware() {
     const self = this;
 
-    return function* middleware(next) {
-      if (this.request.path !== self.options.path) return yield next;
+    return async (ctx: Koa.Context, next: () => Promise<any>) => {
+      if (ctx.request.path !== self.options.path) return next();
 
-      const sig = this.request.get('x-hub-signature');
-      const event = this.request.get('x-github-event');
-      const id = this.request.get('x-github-delivery');
+      const sig = ctx.request.get('x-hub-signature');
+      const event = ctx.request.get('x-github-event');
+      const id = ctx.request.get('x-github-delivery');
 
-      this.assert(sig, 400, 'No X-Hub-Signature found on request');
-      this.assert(event, 400, 'No X-Github-Event found on request');
-      this.assert(id, 400, 'No X-Github-Delivery found on request');
+      ctx.assert(sig, 400, 'No X-Hub-Signature found on request');
+      ctx.assert(event, 400, 'No X-Github-Event found on request');
+      ctx.assert(id, 400, 'No X-Github-Delivery found on request');
 
-      const isBlobMatchingSig = sig === signBlob(self.options.secret, JSON.stringify(this.request.body));
-      this.assert(isBlobMatchingSig, 400, 'X-Hub-Signature does not match blob signature');
+      const payload = await parse(ctx);
 
-      this.response.body = { ok: true };
+      const isBlobMatchingSig = sig === signBlob(self.options.secret, JSON.stringify(payload));
+      ctx.assert(isBlobMatchingSig, 400, 'X-Hub-Signature does not match blob signature');
+
+      ctx.response.body = { ok: true };
 
       const emitData = {
         event,
         id,
-        payload: this.request.body,
-        protocol: this.request.protocol,
-        host: this.request.get('host'),
-        url: this.request.url,
+        payload,
+        protocol: ctx.request.protocol,
+        host: ctx.request.get('host'),
+        url: ctx.request.url,
       };
 
       self.emit(event, emitData);

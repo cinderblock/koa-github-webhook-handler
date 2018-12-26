@@ -24,6 +24,8 @@
     "url": "git+https://github.com/cinderblock/koa-github-webhook-handler.git"
   },
   "devDependencies": {
+    "@types/co-body": "^0.0.3",
+    "@types/koa": "^2.0.47",
     "@types/node": "^10.12.18",
     "co-tape": "^1.0.0",
     "eslint": "^5.11.0",
@@ -45,5 +47,8 @@
   "contributors": [
     "Cameron Tacklind <cameron@tacklind.com>"
   ],
-  "license": "MIT"
+  "license": "MIT",
+  "dependencies": {
+    "co-body": "^6.0.0"
+  }
 }
